@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Template 1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-purple-100 via-pink-100 to-red-100">
+    <div class="container mx-auto p-8 max-w-4xl">
+        <div class="glassmorphism p-8 mb-8 mx-auto">
+            <div class="text-center mb-8">
+                <h1 class="text-5xl font-bold text-purple-800 mb-2">{{name}}</h1>
+                <p class="text-gray-700 text-lg">{{email}} | {{phone}}</p>
+            </div>
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-pink-600 border-b-4 border-pink-400 pb-2 mb-4">Education</h2>
+                <p class="text-gray-800 leading-relaxed">{{education}}</p>
+            </div>
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-red-600 border-b-4 border-red-400 pb-2 mb-4">Work Experience</h2>
+                <p class="text-gray-800 leading-relaxed">{{experience}}</p>
+            </div>
+            <div>
+                <h2 class="text-2xl font-semibold text-purple-600 border-b-4 border-purple-400 pb-2 mb-4">Skills</h2>
+                <p class="text-gray-800 leading-relaxed">{{skills}}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Decorative SVG Background -->
+    <div class="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" class="w-full h-full object-cover">
+            <circle cx="150" cy="150" r="150" fill="#FFC3A0" opacity="0.5"/>
+            <circle cx="650" cy="150" r="150" fill="#FFABAB" opacity="0.5"/>
+            <circle cx="400" cy="650" r="150" fill="#FFDDC1" opacity="0.5"/>
+        </svg>
+    </div>
+</body>
+</html>

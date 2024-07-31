@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6EE7B7, #3B82F6); /* Gradient background */
+            color: #333;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4B5563;
+        }
+
+        .container {
+            padding: 2rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.8); /* Glassmorphism effect */
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #4B5563;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+            padding: 0.75rem;
+            transition: border-color 0.3s;
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: #3B82F6;
+            outline: none;
+        }
+
+        .btn-primary {
+            background-color: #3B82F6;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563EB;
+            transform: scale(1.05);
+        }
+
+        .preview-frame {
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            overflow: hidden;
+            width: 100%;
+            height: 80vh; /* Larger height for visibility */
+        }
+
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            gap: 1.5rem;
+            justify-content: space-between;
+        }
+
+        .flex-item {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .flex-container {
+                flex-direction: column;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">Resume Builder</a>
+    </nav>
+
+    <div class="container mx-auto">
+        <div class="card">
+            <div class="flex-container">
+                <div class="flex-item">
+                    <h3 class="text-3xl font-semibold text-gray-700 mb-4">Preview</h3>
+                    <iframe id="resumePreview" class="preview-frame"></iframe>
+                </div>
+                <div class="flex-item">
+                    <h3 class="text-2xl font-semibold text-gray-700 mb-4">Select Template</h3>
+                    <select id="templateSelect" class="form-control mb-6">
+                        <option value="template1.html">Template 1</option>
+                        <option value="template2.html">Template 2</option>
+                    </select>
+
+                    <div class="form-container">
+                        <h3 class="text-2xl font-semibold text-gray-700 mb-4">Enter Your Information</h3>
+                        <form id="resumeForm">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+                            </div>
+                            <div class="form-group">
+                                <label for="education">Education</label>
+                                <textarea class="form-control" id="education" rows="4" placeholder="Enter your education details"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="experience">Work Experience</label>
+                                <textarea class="form-control" id="experience" rows="4" placeholder="Enter your work experience"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="skills">Skills</label>
+                                <textarea class="form-control" id="skills" rows="4" placeholder="Enter your skills"></textarea>
+                            </div>
+                            <div class="flex gap-4 mt-4">
+                                <button type="button" class="btn-primary" onclick="updatePreview()">Preview</button>
+                                <button type="button" class="btn-primary" onclick="downloadResume()">Download PDF</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
